@@ -1,7 +1,6 @@
 import { RequestHandler } from "express";
 import { serviceService } from "./service.service";
 
-
 // ! post a service by admin
 const createService: RequestHandler = async (req, res) => {
   try {
@@ -24,7 +23,7 @@ const createService: RequestHandler = async (req, res) => {
 const getServiceById: RequestHandler = async (req, res, next) => {
   try {
     const result = await serviceService.getServiceById(req.params.id);
-    res.status(result?200:404).json({
+    res.status(result ? 200 : 404).json({
       success: result ? true : false,
       message: result ? "Service retrieved successfully" : "No Data Found",
       data: result ? result : [],
@@ -34,22 +33,36 @@ const getServiceById: RequestHandler = async (req, res, next) => {
   }
 };
 
-
 // ! get all services
-const getAllServices:RequestHandler=async(req,res,next)=>{
-  const result=await serviceService.getAllServices()
+const getAllServices: RequestHandler = async (req, res, next) => {
+  const result = await serviceService.getAllServices();
   try {
     res.status(200).json({
-      success:true,
-      message:'Services retrieved successfully',
-      data:result
-    })
+      success: true,
+      message: "Services retrieved successfully",
+      data: result,
+    });
   } catch (error) {
-    next(error)
+    next(error);
   }
-}
+};
+
+// ! update service by id
+const updateAService: RequestHandler = async (req, res, next) => {
+  const result = await serviceService.updateAService(req.params.id, req.body);
+  try {
+    res.status(200).json({
+      success: true,
+      message: "Service updated successfully",
+      data: result,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 export const serviceController = {
   createService,
   getServiceById,
-  getAllServices
+  getAllServices,
+  updateAService,
 };
