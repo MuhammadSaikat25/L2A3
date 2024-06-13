@@ -7,12 +7,18 @@ const postServiceIntoDB = async (palyLoad: TService) => {
   return result;
 };
 
+// ! get single service by id
 const getServiceById = async (id: string) => {
   const result = await service.findById(id);
   return result;
 };
 
+const getAllServices = async () => {
+  const result = await service.find();
+  return result;
+};
 export const serviceService = {
   postServiceIntoDB,
   getServiceById,
+  getAllServices,
 };

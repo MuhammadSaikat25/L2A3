@@ -1,6 +1,8 @@
 import { RequestHandler } from "express";
 import { serviceService } from "./service.service";
 
+
+// ! post a service by admin
 const createService: RequestHandler = async (req, res) => {
   try {
     const result = await serviceService.postServiceIntoDB(req.body);
@@ -18,6 +20,7 @@ const createService: RequestHandler = async (req, res) => {
   }
 };
 
+// ! get single service b y id
 const getServiceById: RequestHandler = async (req, res, next) => {
   try {
     const result = await serviceService.getServiceById(req.params.id);
@@ -31,7 +34,22 @@ const getServiceById: RequestHandler = async (req, res, next) => {
   }
 };
 
+
+// ! get all services
+const getAllServices:RequestHandler=async(req,res,next)=>{
+  const result=await serviceService.getAllServices()
+  try {
+    res.status(200).json({
+      success:true,
+      message:'Services retrieved successfully',
+      data:result
+    })
+  } catch (error) {
+    next(error)
+  }
+}
 export const serviceController = {
   createService,
   getServiceById,
+  getAllServices
 };
