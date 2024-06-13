@@ -18,7 +18,6 @@ const createService: RequestHandler = async (req, res) => {
     });
   }
 };
-
 // ! get single service b y id
 const getServiceById: RequestHandler = async (req, res, next) => {
   try {
@@ -32,11 +31,10 @@ const getServiceById: RequestHandler = async (req, res, next) => {
     next(error);
   }
 };
-
 // ! get all services
 const getAllServices: RequestHandler = async (req, res, next) => {
-  const result = await serviceService.getAllServices();
   try {
+    const result = await serviceService.getAllServices();
     res.status(200).json({
       success: true,
       message: "Services retrieved successfully",
@@ -46,7 +44,19 @@ const getAllServices: RequestHandler = async (req, res, next) => {
     next(error);
   }
 };
-
+// ! delete a service
+const deleteAService: RequestHandler = async (req, res, next) => {
+  try {
+    const result = await serviceService.deleteAService(req.params.id);
+    res.status(200).json({
+      success: true,
+      message: "Service deleted successfully",
+      data: result,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 // ! update service by id
 const updateAService: RequestHandler = async (req, res, next) => {
   const result = await serviceService.updateAService(req.params.id, req.body);
@@ -65,4 +75,5 @@ export const serviceController = {
   getServiceById,
   getAllServices,
   updateAService,
+  deleteAService,
 };

@@ -17,16 +17,26 @@ const getAllServices = async () => {
   const result = await service.find();
   return result;
 };
-
+// ! delete a service
+const deleteAService = async (id: string) => {
+  const result = await service.findByIdAndUpdate(
+    id,
+    { isDeleted: true },
+    { new: true }
+  );
+  return result;
+};
 // ! update service
 const updateAService = async (id: string, palyLoad: Partial<TService>) => {
   const result = await service.findByIdAndUpdate(id, palyLoad, { new: true });
-  
+
   return result;
 };
+
 export const serviceService = {
   postServiceIntoDB,
   getServiceById,
   getAllServices,
   updateAService,
+  deleteAService,
 };
