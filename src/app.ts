@@ -4,6 +4,7 @@ import { userRoute } from "./modules/users/user.route";
 import { globalError } from "./middelware/globalError";
 import { authRoute } from "./modules/auth/auth.route";
 import { authValidation } from "./middelware/auth";
+import { serviceRoute } from "./modules/Service/service.route";
 const app = express();
 app.use(express.json());
 app.use(cors());
@@ -13,6 +14,8 @@ app.get("/", (req, res) => {
 });
 // ! for register users
 app.use("/api", userRoute);
+// ! for create service
+app.use("/api", serviceRoute);
 
 // ! for login users
 app.use("/api", authValidation(), authRoute);
