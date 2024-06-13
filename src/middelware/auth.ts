@@ -31,7 +31,8 @@ export const authValidation = (...requiredRole: string[]) => {
         if (requiredRole && !requiredRole.includes(role)) {
           return res.status(401).json({
             success: false,
-            message: "Unauthorized Access",
+            statusCode: 401,
+            message: "You have no access to this route",
           });
         }
         req.user = decoded as JwtPayload;
