@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken";
 import { Users } from "../users/user.model";
 import { TLogin } from "./auth.interface";
 import bcrypt from "bcrypt";
+
 const loginUser = async (playLoad: TLogin) => {
   const result = await Users.findOne({ email: playLoad.email });
   const checkingPassword = await bcrypt.compare(

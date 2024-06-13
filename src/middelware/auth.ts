@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
 
-export const authValidation = () => {
+export const authValidation = (...requiredRole: string[]) => {
   return async (req: Request, res: Response, next: NextFunction) => {
     try {
       const authHeader = req.headers.authorization;
@@ -27,7 +27,13 @@ export const authValidation = () => {
             message: "Unauthorized Access",
           });
         }
-
+        const role = (decoded as JwtPayload).role;
+        if (requiredRole && !requiredRole.includes(role)) {
+          return res.status(401).json({
+            success: false,
+            message: "Unauthorized Access",
+          });
+        }
         req.user = decoded as JwtPayload;
         next();
       });

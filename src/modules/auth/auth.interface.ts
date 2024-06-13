@@ -5,7 +5,9 @@ export interface TLogin{
     password:string
 }
 
-
+export type TAuthRole={
+    role:["admin",'user']
+}
 declare global{
     namespace Express{
         interface Request{

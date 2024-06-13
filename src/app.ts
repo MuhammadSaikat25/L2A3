@@ -18,7 +18,7 @@ app.use("/api", userRoute);
 app.use("/api", serviceRoute);
 
 // ! for login users
-app.use("/api", authValidation(), authRoute);
+app.use("/api", authRoute);
 app.use(globalError);
 
 export default app;
