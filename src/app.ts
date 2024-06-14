@@ -6,6 +6,7 @@ import { authRoute } from "./modules/auth/auth.route";
 import { authValidation } from "./middelware/auth";
 import { serviceRoute } from "./modules/Service/service.route";
 import { slotRoute } from "./modules/slot/slot.route";
+import { bookingRoute } from "./modules/booking/booking.route";
 const app = express();
 app.use(express.json());
 app.use(cors());
@@ -13,14 +14,16 @@ app.use(cors());
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
-// ! for register users
+// !  register users
 app.use("/api", userRoute);
-// ! for create service
+// ! service related route
 app.use("/api", serviceRoute);
-// ! for login users
+// ! users login related route
 app.use("/api", authRoute);
-app.use('/api',slotRoute)
-
+//! slot related route
+app.use("/api", slotRoute);
+// ! booking related route
+app.use('/api',bookingRoute)
 app.use(globalError);
 
 export default app;
