@@ -7,6 +7,7 @@ import { authValidation } from "./middelware/auth";
 import { serviceRoute } from "./modules/Service/service.route";
 import { slotRoute } from "./modules/slot/slot.route";
 import { bookingRoute } from "./modules/booking/booking.route";
+import notFound from "./middelware/notFound";
 const app = express();
 app.use(express.json());
 app.use(cors());
@@ -25,5 +26,6 @@ app.use("/api", slotRoute);
 // ! booking related route
 app.use('/api',bookingRoute)
 app.use(globalError);
+// app.use(notFound)
 
 export default app;
