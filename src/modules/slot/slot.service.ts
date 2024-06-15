@@ -37,7 +37,32 @@ const postSlotInToDb = async (playLoad: TSlot) => {
 
   return createSlot;
 };
-
+const getAvailableSlot = async (query: {date?:string,serviceId?:string}) => {
+  let newQuery:{date?:string,service?:string}={}
+  if(query.date && query.serviceId){
+    newQuery.date=query.date
+    newQuery.service=query.serviceId
+  }else if(query.date){
+    newQuery.date=query.date
+  }else if(query.serviceId){
+    newQuery.service=query.serviceId
+  }else{
+    newQuery={}
+  }
+  console.log(newQuery)
+  if (!query) {
+    const result = await slot.find({
+      isBooked: { $in: ["available", "canceled"] },
+    });
+    return result;
+  }
+  const result = await slot.find({
+    ...newQuery,
+    isBooked: { $in: ["available", "canceled"] },
+  });
+  return result;
+};
 export const slotService = {
   postSlotInToDb,
+  getAvailableSlot,
 };

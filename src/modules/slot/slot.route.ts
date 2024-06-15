@@ -10,4 +10,6 @@ route.post(
   slotController.createSlot
 );
 
+route.get('/slots/availability',slotController.getAvailableSlot)
+
 export const slotRoute = route;
