@@ -71,13 +71,19 @@ const postBookingInToDb = async (customerEmail: string, playLoad: TBooking) => {
 
 // ! get all booking by admin
 const getAllBooking = async () => {
-  const result = await Booking.find();
+  const result = await Booking.find()
+    .populate("serviceId")
+    .populate("customer")
+    .populate("slotId");
   return result;
 };
 // ! login user's own booking
 const loginUserBooking = async (email: string) => {
   const getLoginUser = await Users.findOne({ email });
-  const result = await Booking.findOne({ customer: getLoginUser?._id });
+  const result = await Booking.find({ customer: getLoginUser?._id })
+    .select("-customer")
+    .populate("serviceId")
+    .populate("slotId");
   return result;
 };
 export const bookingService = {
