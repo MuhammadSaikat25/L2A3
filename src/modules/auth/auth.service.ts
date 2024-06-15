@@ -21,6 +21,7 @@ const loginUser = async (playLoad: TLogin) => {
     expiresIn: "10d",
   });
   return {
+    result,
     jwtToken,
   };
 };

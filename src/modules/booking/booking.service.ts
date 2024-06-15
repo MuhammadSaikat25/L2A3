@@ -30,6 +30,10 @@ const postBookingInToDb = async (customerEmail: string, playLoad: TBooking) => {
   const bookingConformSlot =
     getBookingConform[getBookingConform.length - 1].slotId;
   const bookingSlot = await slot.findById(bookingConformSlot);
+  // ! update slot  isBooked filed into booked after booking a service
+  const updateBookingSlotTsBooked = await slot.findByIdAndUpdate(bookingSlot, {
+    isBooked: "booked",
+  });
 
   const result = {
     customer: {
@@ -52,7 +56,7 @@ const postBookingInToDb = async (customerEmail: string, playLoad: TBooking) => {
       date: bookingSlot?.date,
       startTime: bookingSlot?.startTime,
       endTime: bookingSlot?.endTime,
-      isBooked: bookingSlot?.isBooked,
+      isBooked: "booked",
     },
     manufacturingYear: recentBookingData.manufacturingYear,
     _id: recentBookingData._id,
@@ -65,6 +69,19 @@ const postBookingInToDb = async (customerEmail: string, playLoad: TBooking) => {
   return result;
 };
 
+// ! get all booking by admin
+const getAllBooking = async () => {
+  const result = await Booking.find();
+  return result;
+};
+// ! login user's own booking
+const loginUserBooking = async (email: string) => {
+  const getLoginUser = await Users.findOne({ email });
+  const result = await Booking.findOne({ customer: getLoginUser?._id });
+  return result;
+};
 export const bookingService = {
   postBookingInToDb,
+  getAllBooking,
+  loginUserBooking,
 };

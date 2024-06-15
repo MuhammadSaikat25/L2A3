@@ -30,6 +30,7 @@ export const globalError: ErrorRequestHandler = (err, req, res, next) => {
       success: false,
       message: err.message || "Something went wrong",
       error: errorPattern,
+      stack:''
     });
   }
 

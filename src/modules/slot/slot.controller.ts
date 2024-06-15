@@ -15,9 +15,15 @@ const createSlot: RequestHandler = async (req, res, next) => {
 };
 const getAvailableSlot:RequestHandler=async(req,res,next)=>{
   const result=await slotService.getAvailableSlot(req.query)
+ try {
   res.json({
+    success:true,
+    message: "Available slots retrieved successfully",
     data:result
   })
+ } catch (error) {
+  next(error)
+ }
 }
 export const slotController = {
   createSlot,

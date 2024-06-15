@@ -37,6 +37,7 @@ const postSlotInToDb = async (playLoad: TSlot) => {
 
   return createSlot;
 };
+// ! get available slot
 const getAvailableSlot = async (query: {date?:string,serviceId?:string}) => {
   let newQuery:{date?:string,service?:string}={}
   if(query.date && query.serviceId){
@@ -59,7 +60,7 @@ const getAvailableSlot = async (query: {date?:string,serviceId?:string}) => {
   const result = await slot.find({
     ...newQuery,
     isBooked: { $in: ["available", "canceled"] },
-  });
+  }).populate('service');
   return result;
 };
 export const slotService = {

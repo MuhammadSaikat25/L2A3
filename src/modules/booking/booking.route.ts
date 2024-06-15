@@ -11,4 +11,6 @@ route.post(
   validation(bookingValidation.createBookingValidation),
   bookingController.createBooking
 );
+route.get('/bookings',authValidation('admin'),bookingController.getAllBooking)
+route.get('/my-bookings',authValidation('user'),bookingController.loginUserBooking)
 export const bookingRoute = route;
