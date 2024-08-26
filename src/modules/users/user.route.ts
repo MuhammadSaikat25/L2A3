@@ -5,6 +5,7 @@ import { userCreateValidation } from "./user.validation";
 
 
 const route=Router()
+
 route.post('/auth/signup',validation(userCreateValidation) , userController.createUser)
 
 

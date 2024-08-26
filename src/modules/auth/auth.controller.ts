@@ -4,17 +4,17 @@ import { authService } from "./auth.service";
 const loginUser: RequestHandler = async (req, res, next) => {
   try {
     const result = await authService.loginUser(req.body);
-
+    
+    res.cookie("token", result);
     res.status(200).json({
-      success: result ? true : false,
-      message: result ? "User login successful" : "User dose not exist",
-      token: result.jwtToken,
-      data: result.result,
+      success: true,
+      message: "login successful",
+      data: result,
     });
-  } catch (error) {
+  } catch (error:any) {
     res.status(400).json({
       success: false,
-      message: "Something went wrong",
+      message: error?.message,
     });
   }
 };

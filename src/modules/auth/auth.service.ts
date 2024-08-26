@@ -2,9 +2,14 @@ import jwt from "jsonwebtoken";
 import { Users } from "../users/user.model";
 import { TLogin } from "./auth.interface";
 import bcrypt from "bcrypt";
+import AppError from "../../error/AppError";
 
 const loginUser = async (playLoad: TLogin) => {
   const result = await Users.findOne({ email: playLoad.email });
+
+  if (!result) {
+    throw new AppError(404, "User not found");
+  }
   const checkingPassword = await bcrypt.compare(
     playLoad.password as string,
     result?.password as string
