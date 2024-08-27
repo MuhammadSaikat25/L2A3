@@ -1,3 +1,4 @@
+import AppError from "../../error/AppError";
 import { TService } from "../Service/service.interface";
 import { service as serviceModel } from "../Service/service.model";
 import { TSlot } from "./slot.interface";
@@ -13,7 +14,7 @@ const postSlotInToDb = async (playLoad: TSlot) => {
   const [endHour, endMinute] = endTime.split(":").map(Number);
 
   if (!duration || !duration.duration) {
-    throw new Error("Service duration not found");
+    throw new AppError(404,"Service duration not found");
   }
   const start = new Date();
   start.setHours(startHour, startMinute, 0, 0);

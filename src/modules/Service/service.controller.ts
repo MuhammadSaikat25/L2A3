@@ -34,7 +34,7 @@ const getServiceById: RequestHandler = async (req, res, next) => {
 // ! get all services
 const getAllServices: RequestHandler = async (req, res, next) => {
   try {
-    const result = await serviceService.getAllServices();
+    const result = await serviceService.getAllServices(req.query);
     res.status(200).json({
       success: true,
       message: "Services retrieved successfully",
