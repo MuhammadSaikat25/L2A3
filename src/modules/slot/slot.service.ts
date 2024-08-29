@@ -1,5 +1,6 @@
 import AppError from "../../error/AppError";
 import { TService } from "../Service/service.interface";
+
 import { service as serviceModel } from "../Service/service.model";
 import { TSlot } from "./slot.interface";
 import { slot } from "./slot.model";
@@ -14,7 +15,7 @@ const postSlotInToDb = async (playLoad: TSlot) => {
   const [endHour, endMinute] = endTime.split(":").map(Number);
 
   if (!duration || !duration.duration) {
-    throw new AppError(404,"Service duration not found");
+    throw new AppError(404, "Service duration not found");
   }
   const start = new Date();
   start.setHours(startHour, startMinute, 0, 0);
@@ -39,32 +40,44 @@ const postSlotInToDb = async (playLoad: TSlot) => {
   return createSlot;
 };
 // ! get available slot
-const getAvailableSlot = async (query: {date?:string,serviceId?:string}) => {
-  let newQuery:{date?:string,service?:string}={}
-  if(query.date && query.serviceId){
-    newQuery.date=query.date
-    newQuery.service=query.serviceId
-  }else if(query.date){
-    newQuery.date=query.date
-  }else if(query.serviceId){
-    newQuery.service=query.serviceId
-  }else{
-    newQuery={}
+const getAvailableSlot = async (query: {
+  date?: string;
+  serviceId?: string;
+}) => {
+  let newQuery: { date?: string; service?: string } = {};
+  if (query.date && query.serviceId) {
+    newQuery.date = query.date;
+    newQuery.service = query.serviceId;
+  } else if (query.date) {
+    newQuery.date = query.date;
+  } else if (query.serviceId) {
+    newQuery.service = query.serviceId;
+  } else {
+    newQuery = {};
   }
-  console.log(newQuery)
+  console.log(newQuery);
   if (!query) {
     const result = await slot.find({
       isBooked: { $in: ["available", "canceled"] },
     });
     return result;
   }
-  const result = await slot.find({
-    ...newQuery,
-    isBooked: { $in: ["available", "canceled"] },
-  }).populate('service');
+  const result = await slot
+    .find({
+      ...newQuery,
+      isBooked: { $in: ["available", "canceled"] },
+    })
+    .populate("service");
   return result;
 };
+
+const getServiceSlot = async (id: string) => {
+  const result = await slot.find({ service: id });
+  return result;
+};
+
 export const slotService = {
   postSlotInToDb,
   getAvailableSlot,
+  getServiceSlot,
 };

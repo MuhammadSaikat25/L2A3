@@ -2,11 +2,11 @@ import express from "express";
 import cors from "cors";
 import { userRoute } from "./modules/users/user.route";
 import { authRoute } from "./modules/auth/auth.route";
-import { serviceRoute } from "./modules/Service/service.route";
 import { slotRoute } from "./modules/slot/slot.route";
 import { bookingRoute } from "./modules/booking/booking.route";
 import globalErrorHandler from "./middelware/globalErrorHandler";
 import notFound from "./middelware/notFound";
+import { serviceRoute } from "./modules/Service/service.route";
 
 const app = express();
 app.use(express.json());

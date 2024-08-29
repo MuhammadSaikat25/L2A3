@@ -15,7 +15,6 @@ const getServiceById = async (id: string) => {
 // ! get all services
 const getAllServices = async (query: any) => {
   const { search, selectedDuration, sort } = query;
-  console.log(sort);
   const allService = await service.find();
   const uniqDuration = Array.from(
     new Set(allService?.map((service: any) => service.duration))

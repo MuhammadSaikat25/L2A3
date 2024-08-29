@@ -1,8 +1,9 @@
 import { Router } from "express";
 import { serviceController } from "./service.controller";
-import { validation } from "../../middelware/validation";
 import { serviceValidation } from "./service.validation";
 import { authValidation } from "../../middelware/auth";
+import { validation } from "../../middelware/validation";
+
 
 const router = Router();
 router.post(

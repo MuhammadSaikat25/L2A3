@@ -11,5 +11,6 @@ route.post(
 );
 
 route.get('/slots/availability',slotController.getAvailableSlot)
+route.get('/serviceSlot/:id',slotController.getServiceSlot)
 
 export const slotRoute = route;

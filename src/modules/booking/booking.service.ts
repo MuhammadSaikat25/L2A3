@@ -1,8 +1,9 @@
 import { Users } from "../users/user.model";
 import { Booking } from "./booking.model";
 import { TBooking } from "./booking.interface";
-import { service } from "../Service/service.model";
+
 import { slot } from "../slot/slot.model";
+import { service } from "../Service/service.model";
 
 const postBookingInToDb = async (customerEmail: string, playLoad: TBooking) => {
   // ! get booking user
