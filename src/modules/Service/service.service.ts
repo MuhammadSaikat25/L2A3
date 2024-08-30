@@ -15,10 +15,7 @@ const getServiceById = async (id: string) => {
 // ! get all services
 const getAllServices = async (query: any) => {
   const { search, selectedDuration, sort } = query;
-  const allService = await service.find();
-  const uniqDuration = Array.from(
-    new Set(allService?.map((service: any) => service.duration))
-  );
+  const baseFilter = { isDeleted: false };
 
   const searchFilter = search
     ? { name: { $regex: search, $options: "i" } }
@@ -35,25 +32,34 @@ const getAllServices = async (query: any) => {
     }
   }
 
-  const combinedFilter = { ...searchFilter, ...durationFilter };
+  const combinedFilter = {
+    ...baseFilter,
+    ...searchFilter,
+    ...durationFilter,
+  };
 
   let services = await service.find(combinedFilter);
 
-  if (sort === "default") {
-  } else if (sort === "asc") {
-    services = await service.find().sort({ price: 1 });
+  if (sort === "asc") {
+    services = await service.find(combinedFilter).sort({ price: 1 });
   } else if (sort === "dec") {
-    services = await service.find().sort({ price: -1 });
+    services = await service.find(combinedFilter).sort({ price: -1 });
   }
+
   if (services.length === 0) {
-    return await service.find();
+    services = await service.find(baseFilter);
   }
+
+  const uniqDuration = Array.from(
+    new Set(services.map((service: any) => service.duration))
+  );
 
   return {
     services,
     uniqDuration,
   };
 };
+
 // ! delete a service
 const deleteAService = async (id: string) => {
   const result = await service.findByIdAndUpdate(
@@ -66,7 +72,6 @@ const deleteAService = async (id: string) => {
 // ! update service
 const updateAService = async (id: string, palyLoad: Partial<TService>) => {
   const result = await service.findByIdAndUpdate(id, palyLoad, { new: true });
-
   return result;
 };
 

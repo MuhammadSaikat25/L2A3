@@ -9,9 +9,9 @@ const serviceSchema = new Schema<TService>(
     isDeleted: { type: Boolean, default:false },
     price: { type: Number, required: true },
     image: { type: String, required: true },
-    offer: [
+    offers: [
       {
-        offer: {
+        offers: {
           type: String,
           required: true,
         },

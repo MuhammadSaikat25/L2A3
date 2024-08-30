@@ -9,10 +9,10 @@ const createServiceValidation = z.object({
     duration: z.number(),
     isDeleted: z.boolean().default(false).optional(),
     image: z.string(),
-    offer: z
+    offers: z
       .array(
         z.object({
-          offer: z.string(),
+          offers: z.string(),
         })
       )
       .optional(),
@@ -29,6 +29,14 @@ const updateServiceValidation = z.object({
     price: z.number().optional(),
     duration: z.number().optional(),
     isDeleted: z.boolean().optional(),
+    image: z.string().optional(),
+    offers: z
+      .array(
+        z.object({
+          offers: z.string().optional(),
+        })
+      )
+      .optional(),
   }),
 });
 

@@ -28,7 +28,7 @@ export const authValidation = (...UserRole: string[]) => {
       if (!userExist) {
         return next(new AppError(400, "You have no access to this route"));
       }
-      console.log(UserRole)
+
       if (UserRole && !UserRole.includes(decoded.role)) {
         return res.status(401).json({
           success: false,
