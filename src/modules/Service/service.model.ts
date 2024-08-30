@@ -6,9 +6,17 @@ const serviceSchema = new Schema<TService>(
     name: { type: String, required: true },
     description: { type: String, required: true },
     duration: { type: Number, required: true },
-    isDeleted: { type: Boolean, required: true },
+    isDeleted: { type: Boolean, default:false },
     price: { type: Number, required: true },
     image: { type: String, required: true },
+    offer: [
+      {
+        offer: {
+          type: String,
+          required: true,
+        },
+      },
+    ],
   },
   {
     timestamps: true,

@@ -7,9 +7,19 @@ const createServiceValidation = z.object({
     description: z.string(),
     price: z.number(),
     duration: z.number(),
-    isDeleted: z.boolean().default(false),
+    isDeleted: z.boolean().default(false).optional(),
+    image: z.string(),
+    offer: z
+      .array(
+        z.object({
+          offer: z.string(),
+        })
+      )
+      .optional(),
   }),
 });
+
+export default createServiceValidation;
 
 // ! validation for update a services
 const updateServiceValidation = z.object({

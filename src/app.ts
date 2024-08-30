@@ -7,7 +7,7 @@ import { bookingRoute } from "./modules/booking/booking.route";
 import globalErrorHandler from "./middelware/globalErrorHandler";
 import notFound from "./middelware/notFound";
 import { serviceRoute } from "./modules/Service/service.route";
-
+import cookieParser from 'cookie-parser';
 const app = express();
 app.use(express.json());
 app.use(
@@ -18,7 +18,7 @@ app.use(
     allowedHeaders: ["Content-Type", "Authorization", "Other-Custom-Header"],
   })
 );
-
+app.use(cookieParser());
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });

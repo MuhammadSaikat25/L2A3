@@ -5,4 +5,5 @@ export interface TService{
     duration:number,
     isDeleted:boolean
     image:string
+    offer:{offer:""}[]
 }

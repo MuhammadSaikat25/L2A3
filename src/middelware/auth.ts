@@ -1,44 +1,45 @@
 import { NextFunction, Request, Response } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
+import AppError from "../error/AppError";
+import { Users } from "../modules/users/user.model";
 
-export const authValidation = (...requiredRole: string[]) => {
+export const authValidation = (...UserRole: string[]) => {
   return async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const authHeader = req.headers.authorization;
-      if (!authHeader) {
-        return res.status(401).json({
-          success: false,
-          message: "Unauthorized Access",
-        });
-      }
+      // const authHeader = req.headers.authorization;
 
-      const token = authHeader.split(" ")[1];
+      const token = req.cookies.token;
+
       if (!token) {
+        return next(new AppError(400, "You have no access to this route"));
+      }
+      // if (!token) {
+      //   if (!authHeader) {
+      //     return next(new AppError(400, "You have no access to this route"));
+      //   }
+      // }
+      const decoded = jwt.verify(
+        token as string,
+        process.env.JWT as string
+      ) as JwtPayload;
+
+      const userExist = await Users.findOne({ email: decoded.email });
+
+      if (!userExist) {
+        return next(new AppError(400, "You have no access to this route"));
+      }
+      console.log(UserRole)
+      if (UserRole && !UserRole.includes(decoded.role)) {
         return res.status(401).json({
           success: false,
-          message: "Unauthorized Access",
+          statusCode: 401,
+          message: "You have no access to this route",
         });
       }
-
-      jwt.verify(token, process.env.JWT as string, (error, decoded) => {
-        if (error) {
-          return res.status(401).json({
-            success: false,
-            message: "Unauthorized Access",
-          });
-        }
-        const role = (decoded as JwtPayload).role;
-        if (requiredRole && !requiredRole.includes(role)) {
-          return res.status(401).json({
-            success: false,
-            statusCode: 401,
-            message: "You have no access to this route",
-          });
-        }
-        req.user = decoded as JwtPayload;
-        next();
-      });
+      req.user = userExist;
+      next();
     } catch (error) {
+      console.log(error);
       res.status(500).json({
         success: false,
         message: "Internal Server Error",
