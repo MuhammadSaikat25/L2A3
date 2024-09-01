@@ -1,4 +1,5 @@
 import { JwtPayload } from "jsonwebtoken"
+import { TUser } from "../users/user.interface";
 
 export interface TLogin{
     email:string,
@@ -11,7 +12,7 @@ export type TAuthRole={
 declare global{
     namespace Express{
         interface Request{
-            user:JwtPayload
+            user?: TUser;
         }
     }
 }

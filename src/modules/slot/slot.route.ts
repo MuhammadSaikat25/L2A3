@@ -10,7 +10,12 @@ route.post(
   slotController.createSlot
 );
 
-route.get('/slots/availability',slotController.getAvailableSlot)
-route.get('/serviceSlot/:id',slotController.getServiceSlot)
+route.get("/slots/availability", slotController.getAvailableSlot);
+route.get("/serviceSlot/:id", slotController.getServiceSlot);
+route.put(
+  "/updateSlot/:id/:status",
+  authValidation("admin"),
+  slotController.updateSlot
+);
 
 export const slotRoute = route;

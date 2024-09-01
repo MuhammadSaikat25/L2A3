@@ -15,7 +15,10 @@ const getServiceById = async (id: string) => {
 // ! get all services
 const getAllServices = async (query: any) => {
   const { search, selectedDuration, sort } = query;
-  const baseFilter = { isDeleted: false };
+  const allService = await service.find();
+  const uniqDuration = Array.from(
+    new Set(allService?.map((service: any) => service.duration))
+  );
 
   const searchFilter = search
     ? { name: { $regex: search, $options: "i" } }
@@ -32,41 +35,28 @@ const getAllServices = async (query: any) => {
     }
   }
 
-  const combinedFilter = {
-    ...baseFilter,
-    ...searchFilter,
-    ...durationFilter,
-  };
+  const combinedFilter = { ...searchFilter, ...durationFilter };
 
   let services = await service.find(combinedFilter);
 
-  if (sort === "asc") {
-    services = await service.find(combinedFilter).sort({ price: 1 });
+  if (sort === "default") {
+  } else if (sort === "asc") {
+    services = await service.find().sort({ price: 1 });
   } else if (sort === "dec") {
-    services = await service.find(combinedFilter).sort({ price: -1 });
+    services = await service.find().sort({ price: -1 });
   }
-
   if (services.length === 0) {
-    services = await service.find(baseFilter);
+    return await service.find();
   }
-
-  const uniqDuration = Array.from(
-    new Set(services.map((service: any) => service.duration))
-  );
 
   return {
     services,
     uniqDuration,
   };
 };
-
 // ! delete a service
 const deleteAService = async (id: string) => {
-  const result = await service.findByIdAndUpdate(
-    id,
-    { isDeleted: true },
-    { new: true }
-  );
+  const result = await service.findByIdAndDelete(id);
   return result;
 };
 // ! update service

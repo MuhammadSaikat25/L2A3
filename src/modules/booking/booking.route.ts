@@ -7,7 +7,7 @@ import { authValidation } from "../../middelware/auth";
 const route = Router();
 route.post(
   "/bookings",
-  authValidation('user'),
+  authValidation('admin'),
   validation(bookingValidation.createBookingValidation),
   bookingController.createBooking
 );

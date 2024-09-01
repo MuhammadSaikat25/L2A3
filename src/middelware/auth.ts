@@ -6,18 +6,12 @@ import { Users } from "../modules/users/user.model";
 export const authValidation = (...UserRole: string[]) => {
   return async (req: Request, res: Response, next: NextFunction) => {
     try {
-      // const authHeader = req.headers.authorization;
-
-      const token = req.cookies.token;
+      const token = req.headers.authorization;
 
       if (!token) {
-        return next(new AppError(400, "You have no access to this route"));
+        return next(new AppError(400, "you are unauthorize"));
       }
-      // if (!token) {
-      //   if (!authHeader) {
-      //     return next(new AppError(400, "You have no access to this route"));
-      //   }
-      // }
+
       const decoded = jwt.verify(
         token as string,
         process.env.JWT as string
@@ -36,6 +30,7 @@ export const authValidation = (...UserRole: string[]) => {
           message: "You have no access to this route",
         });
       }
+
       req.user = userExist;
       next();
     } catch (error) {

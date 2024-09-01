@@ -55,17 +55,17 @@ const getAvailableSlot = async (query: {
   } else {
     newQuery = {};
   }
-  console.log(newQuery);
+
   if (!query) {
     const result = await slot.find({
-      isBooked: { $in: ["available", "canceled"] },
+      isBooked: { $in: ["available", "canceled", "booked"] },
     });
     return result;
   }
   const result = await slot
     .find({
       ...newQuery,
-      isBooked: { $in: ["available", "canceled"] },
+      isBooked: { $in: ["available", "canceled", "booked"] },
     })
     .populate("service");
   return result;

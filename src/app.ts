@@ -7,21 +7,20 @@ import { bookingRoute } from "./modules/booking/booking.route";
 import globalErrorHandler from "./middelware/globalErrorHandler";
 import notFound from "./middelware/notFound";
 import { serviceRoute } from "./modules/Service/service.route";
-import cookieParser from 'cookie-parser';
+import cookieParser from "cookie-parser";
 const app = express();
-app.use(express.json());
+
 app.use(
   cors({
     origin: "http://localhost:5173",
     credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization", "Other-Custom-Header"],
   })
 );
 app.use(cookieParser());
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
+app.use(express.json());
 // !  register users
 app.use("/api", userRoute);
 // ! service related route
@@ -34,6 +33,6 @@ app.use("/api", slotRoute);
 app.use("/api", bookingRoute);
 
 app.use(globalErrorHandler);
-app.use(notFound)
+app.use(notFound);
 
 export default app;

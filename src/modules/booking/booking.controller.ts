@@ -2,12 +2,12 @@ import { RequestHandler } from "express";
 import { bookingService } from "./booking.service";
 
 const createBooking: RequestHandler = async (req, res, next) => {
-  const customerEmail = req.user.email;
+  const customerEmail = req?.user?.email;
   const bookingData = req.body;
 
   try {
     const result = await bookingService.postBookingInToDb(
-      customerEmail,
+      customerEmail!,
       bookingData
     );
     res.status(200).json({
@@ -32,8 +32,9 @@ const getAllBooking: RequestHandler = async (req, res, next) => {
   }
 };
 const loginUserBooking: RequestHandler = async (req, res, next) => {
-  const email = req.user.email;
-  const result = await bookingService.loginUserBooking(email);
+  const email = req?.user?.email;
+  
+  const result = await bookingService.loginUserBooking(email!);
   try {
     res.status(200).json({
       statusCode: 200,
