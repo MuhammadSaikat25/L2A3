@@ -7,10 +7,10 @@ import { authValidation } from "../../middelware/auth";
 const route = Router();
 route.post(
   "/bookings",
-  authValidation('admin'),
+  authValidation('admin',"user"),
   validation(bookingValidation.createBookingValidation),
   bookingController.createBooking
 );
-route.get('/bookings',authValidation('admin'),bookingController.getAllBooking)
+route.get('/bookings',authValidation('user'),bookingController.getAllBooking)
 route.get('/my-bookings',authValidation('user'),bookingController.loginUserBooking)
 export const bookingRoute = route;

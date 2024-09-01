@@ -33,7 +33,7 @@ const getAllBooking: RequestHandler = async (req, res, next) => {
 };
 const loginUserBooking: RequestHandler = async (req, res, next) => {
   const email = req?.user?.email;
-  
+
   const result = await bookingService.loginUserBooking(email!);
   try {
     res.status(200).json({

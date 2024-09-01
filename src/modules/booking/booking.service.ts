@@ -80,11 +80,14 @@ const getAllBooking = async () => {
 };
 // ! login user's own booking
 const loginUserBooking = async (email: string) => {
-  const getLoginUser = await Users.findOne({ email });
-  const result = await Booking.find({ customer: getLoginUser?._id })
-    .select("-customer")
+  const allOrder = await Booking.find()
     .populate("serviceId")
+    .populate("customer")
     .populate("slotId");
+  const result = allOrder.filter(
+    (order: any) => order?.customer?.email === email
+  );
+
   return result;
 };
 export const bookingService = {

@@ -1,5 +1,6 @@
 import { RequestHandler } from "express";
 import { userService } from "./user.service";
+import { Users } from "./user.model";
 
 const createUser: RequestHandler = async (req, res, next) => {
   try {
@@ -44,8 +45,49 @@ const updateUserRole: RequestHandler = async (req, res, next) => {
     });
   }
 };
+
+const updateProfile: RequestHandler = async (req, res, next) => {
+  try {
+    const email = req.params.email;
+    const data = req.body;
+
+    const result = await Users.findOneAndUpdate(
+      { email },
+      { ...data },
+      { new: true }
+    );
+
+    if (!result) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res
+      .status(200)
+      .json({ message: "Profile updated successfully", user: result });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const getMe: RequestHandler = async (req, res, next) => {
+  try {
+    const result = await Users.findOne({ email: req.params.email });
+    res.status(200).json({
+      success: true,
+      data: result,
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: true,
+      data: error,
+    });
+  }
+};
+export default updateProfile;
 export const userController = {
   createUser,
   getAllUserBYAdmin,
   updateUserRole,
+  updateProfile,
+  getMe,
 };

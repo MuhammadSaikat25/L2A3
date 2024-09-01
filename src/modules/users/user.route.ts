@@ -13,8 +13,14 @@ route.post(
 );
 route.get(
   "/get-all-user",
-  authValidation("admin"),
+  authValidation("admin", "user"),
   userController.getAllUserBYAdmin
+);
+route.get("/getMe/:email", authValidation("user"),userController.getMe);
+route.put(
+  "/update-profile/:email",
+  authValidation("user"),
+  userController.updateProfile
 );
 route.put(
   "/update-role/:id",
