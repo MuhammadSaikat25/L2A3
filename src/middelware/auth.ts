@@ -11,12 +11,12 @@ export const authValidation = (...UserRole: string[]) => {
       if (!token) {
         return next(new AppError(400, "you are unauthorize"));
       }
-
+     
       const decoded = jwt.verify(
         token as string,
         process.env.JWT as string
       ) as JwtPayload;
-
+      
       const userExist = await Users.findOne({ email: decoded.email });
 
       if (!userExist) {

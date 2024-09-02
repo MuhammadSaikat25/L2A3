@@ -25,21 +25,3 @@ const serviceSchema = new Schema<TService>(
 
 export const service = model<TService>("Service", serviceSchema);
 
-// const getCustomer = await Users.findOne({ email: customerEmail });
-// const BookingData = { ...bookingData, customer: getCustomer?._id };
-// let result = await Booking.create(BookingData);
-// const getBooking=service.find()
-// console.log(getBooking)
-
-// console.log(getBooking)
-// let newResult = await (await result.populate("serviceId")).populate("slotId");
-
-// const bookingAllData = {
-//   service:{
-//     _id:newResult.serviceId._id,
-//     name:newResult.serviceId.name
-//   },
-//   customer: getCustomer,
-// };
-// console.log(bookingAllData)
-// return bookingAllData;
