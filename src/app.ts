@@ -8,6 +8,7 @@ import globalErrorHandler from "./middelware/globalErrorHandler";
 import notFound from "./middelware/notFound";
 import { serviceRoute } from "./modules/Service/service.route";
 import cookieParser from "cookie-parser";
+import { reviewRoute } from "./modules/review/review.route";
 const app = express();
 
 app.use(
@@ -31,6 +32,7 @@ app.use("/api", authRoute);
 app.use("/api", slotRoute);
 // ! booking related route
 app.use("/api", bookingRoute);
+app.use("/api", reviewRoute);
 
 app.use(globalErrorHandler);
 app.use(notFound);

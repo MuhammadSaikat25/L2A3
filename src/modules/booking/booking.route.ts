@@ -22,4 +22,4 @@ route.post(
 
 route.get("/payment/stripePk", bookingController.stripePk);
 export const bookingRoute = route;
-// validation(bookingValidation.createBookingValidation),
+

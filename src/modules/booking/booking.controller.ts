@@ -5,14 +5,18 @@ require("dotenv").config();
 const stripe = require("stripe")(process.env.SK);
 
 const createBooking: RequestHandler = async (req, res, next) => {
- 
-  const customer = req?.user;
-  const bookingData = req.body.paymentInfo;
+  const user = req?.user;
+  const customer = user!._id;
+  
+  const paymentInfo = req.body.paymentInfo;
+  const bookingData = req.body.BookingInfo;
 
   try {
-    if (bookingData) {
-      if ("id" in bookingData) {
-        const paymentIntentId = bookingData.id;
+    if (paymentInfo) {
+      if ("id" in paymentInfo) {
+        console.log(paymentInfo.id);
+        const paymentIntentId = paymentInfo.id;
+       
         const paymentIntent = await stripe.paymentIntents.retrieve(
           paymentIntentId
         );
@@ -48,8 +52,9 @@ const getAllBooking: RequestHandler = async (req, res, next) => {
   }
 };
 const loginUserBooking: RequestHandler = async (req, res, next) => {
+  const customer = req?.user;
+  console.log(customer!._id as string);
   const email = req?.user?.email;
-
   const result = await bookingService.loginUserBooking(email!);
 
   try {

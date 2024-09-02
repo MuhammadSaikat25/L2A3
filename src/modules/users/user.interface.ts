@@ -5,5 +5,6 @@ export interface TUser{
     phone:string,
     role:'admin'|'user',
     address:string
+    _id?:string
 }
 

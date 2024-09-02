@@ -1,12 +1,9 @@
+import { slot } from "../slot/slot.model";
 import { Booking } from "./booking.model";
 
 const postBookingInToDb = async (userInfo: any, playLoad: any) => {
   const playLoadCopy = { ...playLoad };
-  const customer = {
-    name: userInfo.name,
-    email: userInfo.email,
-  };
-
+  const customer = userInfo;
   const bookingData = {
     customer,
     serviceId: playLoadCopy.serviceId,
@@ -14,6 +11,11 @@ const postBookingInToDb = async (userInfo: any, playLoad: any) => {
   };
 
   const postData = await Booking.create(bookingData);
+  await slot.updateMany(
+    { _id: { $in: playLoad.slotId } },
+    { $set: { isBooked: "booked" } },
+    { multi: true }
+  );
 
   return postData;
 };
@@ -22,7 +24,6 @@ const getAllBooking = async () => {
   const result = await Booking.find()
     .populate({
       path: "customer",
-      select: "name email",
     })
     .populate({
       path: "serviceId",
